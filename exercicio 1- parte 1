@@ -1,0 +1,16 @@
+if (nota >= 7) {
+
+    if (nota === 10) {
+      return "Parabéns! Você tirou 10 e foi aprovado!";
+    } else {
+      return "Aprovado!";
+    }
+  } else if (nota >= 4 && nota <= 7) {
+    return "Recuperação!";
+  } else {
+    return "Reprovado!";
+  }
+
+let notaAluno = 6.5;
+let resultado = verificarAprovacao(notaAluno);
+console.log(resultado);
