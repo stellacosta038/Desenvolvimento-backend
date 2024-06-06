@@ -1,0 +1,20 @@
+function jogoParOuImpar (escolhaUsuario, numeroEscolhido) {
+  const numeroAleatorio = Math.floor(Math.random() * 9) + 1;
+
+  console.log(Número escolhido pelo usuário: ${numeroEscolhido});
+  console.log(Número aleatório gerado: ${numeroAleatorio});
+
+  const soma = numeroEscolhido + numeroAleatorio;
+  const resultado = soma % 2 === 0 ? 'par' : 'ímpar';
+
+  console.log(A soma dos números é ${soma}, que é ${resultado});
+
+  if ((escolhaUsuario === 'par' && resultado === 'par') || (escolhaUsuario === 'ímpar' && resultado === 'ímpar')) {
+    console.log('Você venceu!');
+  } else {
+    console.log('Você perdeu!');
+  }
+        }
+
+
+  
