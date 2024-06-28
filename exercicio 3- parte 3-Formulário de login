@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const nome = prompt("Digite seu nome:");
+const anoNascimento = prompt("Digite seu ano de nascimento:");
+
+const anoAtual = new Date().getFullYear();
+const idade = anoAtual - anoNascimento;
+
+if (idade >= 18) {
+    alert("Bem-vindo, " + nome + "!");
+    const nomeUsuario = prompt("Digite um nome de usuário:");
+    const senha = prompt("Digite uma senha:");
+
+    const dadosUsuario = {
+        nome: nomeUsuario,
+        senha: senha
+    };
+
+    console.log("Dados salvos para uso posterior:");
+    console.log(dadosUsuario);
+} else {
+    alert("Desculpe, o login é proibido para menores de idade.");
+}
+    </script>
+</body>
+</html>
