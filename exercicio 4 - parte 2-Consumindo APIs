@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2 id="user_name"></h2>
+<br>
+<img id="user_image" src="" alt="Foto do usuário" style="width:150px; height:auto;">
+<p>Email:</p>
+<p id="user_email"></p>
+<p>Localização:</p>
+<p id="user_location"></p>
+
+<script>
+// Variável para armazenar os dados do usuário
+let userData;
+
+// Função assíncrona para obter dados do usuário
+async function getUser() {
+  try {
+    const response = await fetch("https://randomuser.me/api/");
+    userData = await response.json();
+    console.log(userData);
+
+    // Lança na página
+    const userImage = document.getElementById('user_image');
+    userImage.src = userData.results[0].picture.large;
+
+    document.getElementById('user_name').innerHTML = ${userData.results[0].name.first} ${userData.results[0].name.last};
+
+    document.getElementById('user_email').innerHTML = userData.results[0].email;
+
+    document.getElementById('user_location').innerHTML = ${userData.results[0].location.city}, ${userData.results[0].location.country};
+
+  } catch (error) {
+    console.error('Erro:', error);
+  }
+}
+
+// Chamar a função
+getUser();
+</script>
+
+</body>
+</html>
