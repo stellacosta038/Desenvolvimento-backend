@@ -1,0 +1,64 @@
+class Dispositivo:
+    def _init_(self, modelo, categoria, serial):
+        self.modelo = modelo
+        self.categoria = categoria
+        self.serial = serial
+        self.disponivel = True
+     
+
+    def emprestar(self):
+        if self.disponivel:
+            self.disponivel = False
+            return True
+        return False
+
+    def devolver(self):
+        self.disponivel = True
+class CentroDeEmpréstimos:
+    def _init_(self):
+        self.inventario = []
+
+    def adicionarDispositivo(self, dispositivo):
+        self.inventario.append(dispositivo)
+
+    def verificarDispositivo(self, serial):
+        for dispositivo in self.inventario:
+            if dispositivo.serial == serial:
+                return dispositivo
+        return None
+
+    def emprestarDispositivo(self, serial):
+        dispositivo = self.verificarDispositivo(serial)
+        if dispositivo and dispositivo.emprestar():
+            return True
+        return False
+
+    def devolverDispositivo(self, serial):
+        dispositivo = self.verificarDispositivo(serial)
+        if dispositivo:
+            dispositivo.devolver()
+            return True
+        return False
+# Criando instâncias de Dispositivo
+dispositivo1 = Dispositivo("Dell XPS 13", "laptop", "12345")
+dispositivo2 = Dispositivo("iPad Pro", "tablet", "67890")
+dispositivo3 = Dispositivo("Canon EOS", "câmera", "54321")
+
+# Criando instância do CentroDeEmpréstimos e adicionando dispositivos ao inventário
+centro = CentroDeEmpréstimos()
+centro.adicionarDispositivo(dispositivo1)
+centro.adicionarDispositivo(dispositivo2)
+centro.adicionarDispositivo(dispositivo3)
+
+# Testando a funcionalidade de emprestar
+print(centro.emprestarDispositivo("12345"))  # True
+print(centro.emprestarDispositivo("12345"))  # False (já emprestado)
+print(centro.emprestarDispositivo("99999"))  # False (não encontrado)
+
+# Testando a funcionalidade de devolver
+print(centro.devolverDispositivo("12345"))  # True
+print(centro.devolverDispositivo("99999"))  # False (não encontrado)
+
+# Verificando a integridade dos dados
+for dispositivo in centro.inventario:
+    print(f"Modelo: {dispositivo.modelo}, Disponível: {dispositivo.disponivel}")
