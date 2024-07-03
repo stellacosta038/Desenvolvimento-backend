@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2 id="nome_dog"></h2>
+<br>
+<img id="k-churros" src="" alt="Um doguinho fofo qualquer" style="width:300px; height:auto;">
+<p>Temperamento:</p>
+<p id="temperamento"> </p>
+
+<script>
+// Variável declarada fora do escopo da função para poder ser acessada pelo console.log()
+let data;
+
+// async permite que a função seja assíncrona; o await permite aguardar uma resposta
+async function doguinho() {
+  try {
+    const response = await fetch("https://api.thedogapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1", {
+      headers: {
+        'x-api-key': "live_d091iSYBiB3CYFRs67Euj1om5hOqRkvGJEk0SxvG8VqH8YeIV7RtlwpI9YhTnm2V"
+      }
+    });
+    data = await response.json();
+    console.log(data);
+
+    // Lança na página
+    const dogImage = document.getElementById('k-churros');
+    dogImage.src = data[0].url;
+
+    document.getElementById('nome_dog').innerHTML = data[0].breeds[0].name;
+    document.getElementById('temperamento').innerHTML = data[0].breeds[0].temperament;
+
+  } catch (error) {
+    console.error('Erro:', error);
+  }
+}
+
+// Chamar a função
+doguinho();
+</script>
+</body>
+</html>
