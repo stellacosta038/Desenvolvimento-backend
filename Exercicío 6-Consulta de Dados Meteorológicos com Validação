@@ -1,0 +1,31 @@
+async function getWeather(city) {
+  const apiKey = 'SUA_CHAVE_DE_API'; 
+  const apiUrl = https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric; 
+  
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    const temperature = data.main.temp;
+    
+    console.log(Temperatura atual em ${city}: ${temperature}°C);
+  } catch (error) {
+    console.log('Ocorreu um erro ao obter os dados meteorológicos. Verifique se o nome da cidade está correto.');
+  }
+}
+
+function validateCityName(city) {
+  const regex = /^[a-zA-Z\s-]+$/;
+  return regex.test(city);
+}
+
+function main() {
+  const city = prompt('Digite o nome da cidade:');
+  
+  if (validateCityName(city)) {
+    getWeather(city);
+  } else {
+    console.log('Nome da cidade inválido. Por favor, digite um nome válido.');
+  }
+}
+
+main();
