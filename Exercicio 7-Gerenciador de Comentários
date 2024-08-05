@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comentários</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Comentários</h1>
+    <input type="text" id="commentInput" placeholder="Digite seu comentário">
+    <button id="addCommentBtn">Adicionar Comentário</button>
+    
+    <h2>Lista de Comentários:</h2>
+    <ul id="commentList"></ul>
+
+    <script>
+        const commentInput = document.getElementById('commentInput');
+        const addCommentBtn = document.getElementById('addCommentBtn');
+        const commentList = document.getElementById('commentList');
+
+        // Função para adicionar um comentário
+        addCommentBtn.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                const li = document.createElement('li');
+                li.textContent = commentText;
+
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Editar';
+                editBtn.addEventListener('click', () => {
+                    const newCommentText = prompt('Editar comentário:', commentText);
+                    if (newCommentText) {
+                        li.textContent = newCommentText;
+                        li.appendChild(editBtn);
+                        li.appendChild(removeBtn);
+                    }
+                });
+
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'Remover';
+                removeBtn.addEventListener('click', () => {
+                    commentList.removeChild(li);
+                });
+
+                li.appendChild(editBtn);
+                li.appendChild(removeBtn);
+                commentList.appendChild(li);
+                commentInput.value = ''; // Limpa o campo de entrada
+            } else {
+                alert('Por favor, digite um comentário.');
+            }
+        });
+    </script>
+
+</body>
+</html>
+```
