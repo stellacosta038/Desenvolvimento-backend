@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Jogo da Memória</h1>
+    <div id="gameBoard"></div>
+    <p id="message">Encontre todos os pares!</p>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+// CSS
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #bd7272;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#gameBoard {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    gap: 10px;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+    color: rgb(56, 135, 138);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 8px;
+}
+
+.card.flipped,
+.card.matched {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+
+
+
+// javaScript
+
+document.addEventListener('DOMContentLoaded', () => {
+    const gameBoard = document.getElementById('gameBoard');
+    const messageElement = document.getElementById('message');
+    const icons = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍓', '🍍', '🥝']; // Ícones do jogo
+    let cards = [...icons, ...icons]; // Duplicando os ícones para formar pares
+    let flippedCards = [];
+    let matchedCards = [];
+
+    // Função para embaralhar as cartas
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Função para criar as cartas
+    function createCard(icon) {
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('card');
+        cardElement.dataset.icon = icon;
+        cardElement.innerHTML = '?'; // Ícone escondido inicialmente
+        cardElement.addEventListener('click', onCardClick);
+        return cardElement;
+    }
+
+    // Função de clique na carta
+    function onCardClick(event) {
+        const clickedCard = event.target;
+
+        // Evitar ações em cartas já viradas ou correspondentes
+        if (clickedCard.classList.contains('flipped') || clickedCard.classList.contains('matched')) {
+            return;
+        }
+
+        // Virar a carta
+        clickedCard.classList.add('flipped');
+        clickedCard.innerHTML = clickedCard.dataset.icon;
+
+        // Adicionar a carta à lista de viradas
+        flippedCards.push(clickedCard);
+
+        // Verificar se duas cartas estão viradas
+        if (flippedCards.length === 2) {
+            checkMatch();
+        }
+    }
+
+    // Função para verificar correspondência
+    function checkMatch() {
+        const [card1, card2] = flippedCards;
+
+        if (card1.dataset.icon === card2.dataset.icon) {
+            // Cartas correspondentes
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            matchedCards.push(card1, card2);
+            flippedCards = [];
+
+            // Verificar se todas as cartas foram correspondidas
+            if (matchedCards.length === cards.length) {
+                messageElement.textContent = 'Parabéns! Você encontrou todos os pares!';
+            }
+        } else {
+            // Se não correspondem, virar de volta após um curto período
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card1.innerHTML = '?';
+                card2.classList.remove('flipped');
+                card2.innerHTML = '?';
+                flippedCards = [];
+            }, 1000);
+        }
+    }
+
+    // Função para inicializar o jogo
+    function initGame() {
+        shuffle(cards);
+        gameBoard.innerHTML = '';
+        cards.forEach(icon => {
+            const card = createCard(icon);
+            gameBoard.appendChild(card);
+        });
+    }
+
+    initGame(); // Inicializar o jogo ao carregar a página
+});
